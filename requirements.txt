@@ -8,7 +8,7 @@ redis==5.0.1
 pyjwt==2.8.0
 passlib[bcrypt]==1.7.4
 python-multipart==0.0.6
-Pillow==10.1.0
+Pillow>=10.0.0,<11.0.0
 aiofiles==23.2.1
 httpx==0.25.1
 pydantic==2.5.0
