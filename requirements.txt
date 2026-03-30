@@ -5,5 +5,3 @@ sqlalchemy
 redis
 pyjwt
 python-dotenv
-pydantic
-pydantic-settings
