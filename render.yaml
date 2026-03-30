@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: messenger-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://messenger_user:password@localhost:5432/messenger
+      - key: REDIS_URL
+        value: redis://localhost:6379/0
+      - key: JWT_SECRET
+        value: my_super_secret_key_123456
+      - key: JWT_ALGORITHM
+        value: HS256
