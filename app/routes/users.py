@@ -33,8 +33,8 @@ async def get_my_profile(
         "last_seen": user.last_seen.isoformat() if user.last_seen else None
     }
 
-@router.post("/me")
 @router.put("/me")
+@router.post("/me")
 async def update_profile(
     data: ProfileUpdate,
     current_user: dict = Depends(get_current_user),
@@ -57,6 +57,28 @@ async def update_profile(
         await db.commit()
     
     return {"message": "Profile updated"}
+
+# ВАЖНО: Эндпоинт для поиска пользователя по номеру
+@router.get("/search/{phone}")
+async def search_user_by_phone(
+    phone: str,
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Поиск пользователя по номеру телефона"""
+    print(f"Ищем пользователя: {phone}")
+    result = await db.execute(select(User).where(User.phone == phone))
+    user = result.scalar_one_or_none()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return {
+        "id": user.id,
+        "phone": user.phone,
+        "username": user.username,
+        "avatar": user.avatar
+    }
 
 @router.get("/{user_id}/status")
 async def get_user_status(
